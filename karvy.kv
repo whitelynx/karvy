@@ -1,0 +1,63 @@
+#:kivy 1.10.0
+#:import CEFBrowser kivy.garden.cefpython
+
+<Label>:
+	font_name: 'fonts/Exo2-Regular.ttf'
+
+<ItemLabel@Label>:
+	font_size: 30
+	size: self.texture_size
+	size_hint_x: None
+	halign: 'right'
+	valign: 'middle'
+
+<ItemDisplay@Label>:
+	font_size: 60
+
+<BTMusicDisplay>:
+	artistDisplay: artistDisplay
+	albumDisplay: albumDisplay
+	trackDisplay: trackDisplay
+	browser: browser
+
+	orientation: 'vertical'
+
+	Label:
+		#font_name: 'fonts/IBMPlexMono-Regular.ttf'
+		#font_name: 'fonts/IBMPlexMono-Bold.ttf'
+		font_name: 'fonts/OxygenMono-Regular.ttf'
+		#font_name: 'fonts/NovaMono.ttf'
+		font_size: 11
+		#size: self.texture_size
+		height: self.texture_size[1]
+		size_hint_y: None
+		markup: True
+		#text: f'{root.now.date().isoformat()} {root.now.time().isoformat("seconds")}[size=10][color=888888].{root.now.microsecond:07}[/color][/size]'
+		text: root.now.date().isoformat() + ' ' + root.now.time().isoformat("seconds") + '[size=10][color=888888].{:07}[/color][/size]'.format(root.now.microsecond)
+		halign: 'right'
+
+	BoxLayout:
+		GridLayout:
+			cols: 2
+			padding: 20
+
+			on_touch_down: root.reload(args[1])
+
+			ItemLabel:
+				text: 'Artist:'
+			ItemDisplay:
+				id: artistDisplay
+
+			ItemLabel:
+				text: 'Album:'
+			ItemDisplay:
+				id: albumDisplay
+
+			ItemLabel:
+				text: 'Track:'
+			ItemDisplay:
+				id: trackDisplay
+
+		CEFBrowser:
+			id: browser
+			url: 'https://maps.google.com'
