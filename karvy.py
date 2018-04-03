@@ -7,26 +7,33 @@ kivy.require('1.10.0')
 
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.label import Label
-from kivy.uix.textinput import TextInput
-from kivy.uix.widget import Widget
-from kivy.properties import NumericProperty, ReferenceListProperty, ObjectProperty
-from kivy.vector import Vector
+from kivy.properties import DictProperty, ObjectProperty, StringProperty
 from kivy.clock import Clock
 
 
-class BTMusicDisplay(BoxLayout):
-    artistDisplay = ObjectProperty(None)
-    albumDisplay = ObjectProperty(None)
-    trackDisplay = ObjectProperty(None)
-    browser = ObjectProperty(None)
+class Screen(BoxLayout):
     now = ObjectProperty(datetime.now(), rebind=True)
 
+    def __init__(self, **kwargs):
+        super(Screen, self).__init__(**kwargs)
+        Clock.schedule_interval(self.update, 0.1)
+        self.update()
+
     def update(self, *args):
-        self.artistDisplay.text = '<some artist here>'
-        self.albumDisplay.text = '<some album here>'
-        self.trackDisplay.text = '<some track here>'
         self.now = datetime.now()
+
+
+
+class Dashboard(BoxLayout):
+    data = DictProperty({}, rebind=True)
+
+    def update(self, **kwargs):
+        self.data.update(kwargs)
+        self.data = self.data
+
+
+class WebDisplay(BoxLayout):
+    browser = ObjectProperty(None)
 
     def reload(self, touch):
         print('reload: touch.button:', touch.button)
@@ -36,10 +43,7 @@ class BTMusicDisplay(BoxLayout):
 
 class KarvyApp(App):
     def build(self):
-        btMusicDisplay = BTMusicDisplay()
-        btMusicDisplay.update()
-        Clock.schedule_interval(btMusicDisplay.update, 1.0/60.0)
-        return btMusicDisplay
+        return Screen()
 
 
 if __name__ == '__main__':

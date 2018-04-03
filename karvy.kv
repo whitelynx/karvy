@@ -1,63 +1,84 @@
 #:kivy 1.10.0
 #:import CEFBrowser kivy.garden.cefpython
+#:import Page Page
+#:import BTMusicDisplay BTMusicDisplay
+#:import Gauge Gauge
+#:include Page.kv
+#:include BTMusicDisplay.kv
+#:include Gauge.kv
 
 <Label>:
 	font_name: 'fonts/Exo2-Regular.ttf'
 
-<ItemLabel@Label>:
-	font_size: 30
-	size: self.texture_size
-	size_hint_x: None
-	halign: 'right'
-	valign: 'middle'
 
-<ItemDisplay@Label>:
-	font_size: 60
+<Dashboard>:
+	canvas.before:
+		Color:
+			rgba: 0, 0, 0, 1
+		Rectangle:
+			pos: self.pos
+			size: self.size
 
-<BTMusicDisplay>:
-	artistDisplay: artistDisplay
-	albumDisplay: albumDisplay
-	trackDisplay: trackDisplay
+	Gauge:
+		needle_width: 8
+
+	Gauge:
+
+
+<WebDisplay>:
 	browser: browser
 
+	on_touch_down: root.reload(args[1])
+
+	CEFBrowser:
+		id: browser
+		url: 'https://maps.google.com'
+
+
+<Screen>:
 	orientation: 'vertical'
 
-	Label:
-		#font_name: 'fonts/IBMPlexMono-Regular.ttf'
-		#font_name: 'fonts/IBMPlexMono-Bold.ttf'
-		font_name: 'fonts/OxygenMono-Regular.ttf'
-		#font_name: 'fonts/NovaMono.ttf'
-		font_size: 11
-		#size: self.texture_size
-		height: self.texture_size[1]
-		size_hint_y: None
-		markup: True
-		#text: f'{root.now.date().isoformat()} {root.now.time().isoformat("seconds")}[size=10][color=888888].{root.now.microsecond:07}[/color][/size]'
-		text: root.now.date().isoformat() + ' ' + root.now.time().isoformat("seconds") + '[size=10][color=888888].{:07}[/color][/size]'.format(root.now.microsecond)
-		halign: 'right'
-
 	BoxLayout:
-		GridLayout:
-			cols: 2
-			padding: 20
+		orientation: 'horizontal'
+		height: clock.height
+		size_hint_y: None
 
-			on_touch_down: root.reload(args[1])
+		canvas.before:
+			Color:
+				rgba: 0.1, 0.1, 0.1, 1
+			Rectangle:
+				pos: self.pos
+				size: self.size
 
-			ItemLabel:
-				text: 'Artist:'
-			ItemDisplay:
-				id: artistDisplay
+		Label:
+			text: ''
 
-			ItemLabel:
-				text: 'Album:'
-			ItemDisplay:
-				id: albumDisplay
+		Label:
+			id: clock
+			#font_name: 'fonts/IBMPlexMono-Regular.ttf'
+			#font_name: 'fonts/IBMPlexMono-Bold.ttf'
+			font_name: 'fonts/OxygenMono-Regular.ttf'
+			#font_name: 'fonts/NovaMono.ttf'
+			font_size: 11
+			#size: self.texture_size
+			height: self.texture_size[1]
+			markup: True
+			# TODO: File a bug with Kivy about using format strings:
+			#text: f'{root.now.date().isoformat()} {root.now.time().isoformat("seconds")}[size=10][color=888888].{root.now.microsecond:07}[/color][/size]'
+			text: root.now.date().isoformat() + ' ' + root.now.time().isoformat("seconds") + '[size=10][color=888888].{:06}[/color][/size]'.format(root.now.microsecond)
+			halign: 'right'
 
-			ItemLabel:
-				text: 'Track:'
-			ItemDisplay:
-				id: trackDisplay
+	PageLayout:
+		swipe_threshold: .2
 
-		CEFBrowser:
-			id: browser
-			url: 'https://maps.google.com'
+		Page:
+			title: 'Music'
+			BTMusicDisplay
+
+		Page:
+			title: 'Dashboard'
+			Dashboard
+
+		Page:
+			title: 'Maps'
+			WebDisplay
