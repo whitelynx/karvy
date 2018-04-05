@@ -4,6 +4,7 @@ kivy.require('1.10.0')
 from kivy.uix.gridlayout import GridLayout
 from kivy.properties import NumericProperty, ObjectProperty, StringProperty
 from kivy.clock import Clock
+from kivy.logger import Logger
 
 import dbus
 import gi
@@ -68,7 +69,7 @@ class BTMusicDisplay(GridLayout):
 
         for path in managedObjects:
             if path.endswith('/player0'):
-                print(f'Found media player: {path}')
+                Logger.info(f'Found media player: {path}')
 
                 self.playerDevicePath = path
                 self.playerDevice = dbus.Interface(
