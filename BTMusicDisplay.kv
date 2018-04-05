@@ -1,4 +1,5 @@
 #:kivy 1.10.0
+#:import icon kivy.garden.iconfonts.icon
 
 <ItemLabel@Label>:
     font_size: 30
@@ -9,10 +10,17 @@
 
 
 <ItemDisplay@Label>:
-    font_size: 60
+    font_size: 50
 
+<Button>:
+    font_size: 60
+	markup: True
+	background_color: 0.4, 0.4, 0.4, 0.7
 
 <BTMusicDisplay>:
+	cols: 1
+	padding: 20
+
     GridLayout:
         cols: 2
         padding: 20
@@ -31,3 +39,44 @@
             text: 'Track:'
         ItemDisplay:
             text: root.track
+
+	BoxLayout:
+		height: 40
+		size_hint_y: None
+		#size_hint_y: 0.2
+
+		padding: 0, 10
+
+		Label:
+			canvas.before:
+				Color:
+					rgba: 0.1, 0.1, 0.1, 0.7
+				Rectangle:
+					pos: self.pos
+					size: self.width, self.height
+
+				Color:
+					rgba: 0, 1, 0, 1
+				Rectangle:
+					pos: self.pos
+					size: self.width * (root.position / (root.duration or 1)), self.height
+
+	BoxLayout:
+		orientation: 'horizontal'
+		size_hint_y: 0.5
+
+		Button:
+			text: '%s'%(icon('icon-previous2'))
+			on_press: root.previous()
+
+		Button:
+			text: '%s'%(icon('icon-pause2'))
+			on_press: root.pause()
+
+		Button:
+			text: '%s'%(icon('icon-play3'))
+			on_press: root.play()
+
+		Button:
+			text: '%s'%(icon('icon-next2'))
+			on_press: root.next()

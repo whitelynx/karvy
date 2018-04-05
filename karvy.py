@@ -10,6 +10,10 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.image import Image
 from kivy.properties import DictProperty, ObjectProperty, StringProperty
 from kivy.clock import Clock
+from kivy.garden import iconfonts
+
+
+iconfonts.register('default_font', 'fonts/icomoon.ttf', 'fonts/icomoon.fontd')
 
 
 class Screen(BoxLayout):
@@ -28,7 +32,6 @@ class Screen(BoxLayout):
 
     def update(self, *args):
         self.now = datetime.now()
-
 
 
 class Dashboard(BoxLayout):

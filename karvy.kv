@@ -6,6 +6,7 @@
 #:include Page.kv
 #:include BTMusicDisplay.kv
 #:include Gauge.kv
+#:include CameraView.kv
 
 <Label>:
     font_name: 'fonts/Exo2-Regular.ttf'
@@ -67,15 +68,18 @@
     PageLayout:
         swipe_threshold: .2
 
+		Page:
+			title: 'Camera'
+			background_image: root.background_image
+			CameraView
+
         Page:
             title: 'Music'
-            color: 0.2, 0.2, 0.2, 0.8
             background_image: root.background_image
             BTMusicDisplay
 
         Page:
             title: 'Dashboard'
-            color: 0.2, 0.2, 0.2, 0.8
             background_image: root.background_image
             Dashboard
 

@@ -5,9 +5,7 @@
 
     canvas.before:
         Color:
-            #rgba: 0, 0, 0, 0.9
-            #rgb: 1, 1, 1
-            rgb: 0.1, 0.1, 0.1
+			rgba: root.background_color
         Rectangle:
             pos: self.pos
             size: self.size
@@ -22,7 +20,7 @@
 
         canvas.before:
             Color:
-                rgba: root.color
+                rgba: root.tab_color
             Rectangle:
                 pos: self.pos
                 size: self.size

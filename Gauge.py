@@ -4,8 +4,6 @@ kivy.require('1.10.0')
 from kivy.uix.effectwidget import EffectWidget
 from kivy.uix.image import Image
 from kivy.properties import BoundedNumericProperty, NumericProperty, ObjectProperty, StringProperty
-from kivy.clock import Clock
-from kivy.graphics import *
 
 
 class Gauge(EffectWidget):
@@ -36,6 +34,7 @@ if __name__ == '__main__':
     from os.path import join, dirname, abspath
 
     from kivy.app import App
+    from kivy.clock import Clock
     from kivy.lang import Builder
     from kivy.uix.boxlayout import BoxLayout
     from kivy.uix.label import Label
