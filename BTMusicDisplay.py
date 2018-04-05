@@ -87,7 +87,7 @@ class BTMusicDisplay(GridLayout):
 
         for path in managedObjects:
             if path.endswith('/player0'):
-                Logger.info(f'Found media player: {path}')
+                Logger.info(f'BTMusicDisplay: Found media player: {path}')
 
                 self.playerObjectPath = path
 
