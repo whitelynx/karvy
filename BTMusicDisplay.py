@@ -78,7 +78,7 @@ class BTMusicDisplay(GridLayout):
 
         Clock.schedule_interval(self.triggerUpdate, 0.01)
 
-    def refreshBTDevice(self):
+    def refreshBTDevice(self, *args):
         rootBTObj = systemBus.get_object('org.bluez', '/')
         managedObjects = rootBTObj.GetManagedObjects(dbus_interface='org.freedesktop.DBus.ObjectManager')
 
@@ -130,25 +130,32 @@ class BTMusicDisplay(GridLayout):
     def setPlayerProp(self, name, value):
         self.playerPropsDevice.Set('org.bluez.MediaPlayer1', name, value)
 
+    def setDefaultValues(self):
+        self.status = 'disconnected'
+        self.position = 0
+        self.duration = 1
+        self.artist = '-'
+        self.album = '-'
+        self.track = '-'
+
     def checkUpdate(self, *args):
         if self.playerObjectPath is None or self.player is None:
-            self.status = 'disconnected'
-            self.position = 0
-            self.duration = 1
-            self.artist = '-'
-            self.album = '-'
-            self.track = '-'
-
+            self.setDefaultValues()
             self.triggerRefreshBTDevice()
             return
 
-        self.status = self.getPlayerProp('Status')
-        self.position = int(self.getPlayerProp('Position'))
-        self.shuffle = self.getPlayerProp('Shuffle')
-        self.repeat = self.getPlayerProp('Repeat')
+        try:
+            self.status = self.getPlayerProp('Status')
+            self.position = int(self.getPlayerProp('Position'))
+            self.shuffle = self.getPlayerProp('Shuffle')
+            self.repeat = self.getPlayerProp('Repeat')
 
-        track = self.getPlayerProp('Track')
-        self.duration = int(track['Duration'])
-        self.artist = track['Artist']
-        self.album = track['Album']
-        self.track = track['Title']
+            track = self.getPlayerProp('Track')
+            self.duration = int(track['Duration'])
+            self.artist = track['Artist']
+            self.album = track['Album']
+            self.track = track['Title']
+
+        except dbus.exceptions.DBusException:
+            self.setDefaultValues()
+            self.triggerRefreshBTDevice()
