@@ -1,15 +1,16 @@
+from datetime import timedelta
+
 import kivy
 kivy.require('1.10.0')
 
 from kivy.uix.gridlayout import GridLayout
-from kivy.properties import NumericProperty, ObjectProperty, StringProperty
+from kivy.properties import AliasProperty, BooleanProperty, NumericProperty, ObjectProperty, StringProperty
 from kivy.clock import Clock
 from kivy.logger import Logger
 
 import dbus
-import gi
 
-gi.require_version('Gst', '1.0')
+from DBus import systemBus
 
 
 '''
@@ -46,73 +47,105 @@ Properties:
 '''
 
 
+def renderMS(ms):
+    return str(timedelta(milliseconds=ms))
+
+
 class BTMusicDisplay(GridLayout):
+    player_name = StringProperty()
+    status = StringProperty()
+    shuffle = BooleanProperty()
+    repeat = BooleanProperty()
     position = NumericProperty()
     duration = NumericProperty()
     artist = StringProperty()
     album = StringProperty()
     track = StringProperty()
 
+    def get_status_display(self):
+        if self.duration:
+            return f'{self.status} [size=11][font=fonts/OxygenMono-Regular.ttf]({renderMS(self.position)[:-5]} / {renderMS(self.duration)})[/font][/size]'
+        return self.status
+
+    status_display = AliasProperty(get_status_display, None, bind=('status', 'position', 'duration'))
+
     def __init__(self, **kwargs):
         super(BTMusicDisplay, self).__init__(**kwargs)
-        self.dbus = dbus.SystemBus()
         self.refreshBTDevice()
 
-        Clock.schedule_interval(self.checkUpdate, 0.01)
+        self.triggerRefreshBTDevice = Clock.create_trigger(self.refreshBTDevice)
+        self.triggerUpdate = Clock.create_trigger(self.checkUpdate)
+
+        Clock.schedule_interval(self.triggerUpdate, 0.01)
 
     def refreshBTDevice(self):
-        rootBTObj = self.dbus.get_object('org.bluez', '/')
+        rootBTObj = systemBus.get_object('org.bluez', '/')
         managedObjects = rootBTObj.GetManagedObjects(dbus_interface='org.freedesktop.DBus.ObjectManager')
 
-        self.playerDevicePath = None
-        self.playerDevice = None
+        self.playerObjectPath = None
+        self.player = None
 
         for path in managedObjects:
             if path.endswith('/player0'):
                 Logger.info(f'Found media player: {path}')
 
-                self.playerDevicePath = path
-                self.playerDevice = dbus.Interface(
-                    self.dbus.get_object('org.bluez', self.playerDevicePath),
+                self.playerObjectPath = path
+
+                deviceObject = systemBus.get_object('org.bluez', self.playerObjectPath[:-8])
+                self.player_name = deviceObject.Get(
+                    'org.bluez.Device1',
+                    'Alias',
+                    dbus_interface='org.freedesktop.DBus.Properties'
+                )
+
+                self.player = dbus.Interface(
+                    systemBus.get_object('org.bluez', self.playerObjectPath),
                     dbus_interface='org.bluez.MediaPlayer1',
                 )
                 self.playerPropsDevice = dbus.Interface(
-                    self.dbus.get_object('org.bluez', self.playerDevicePath),
+                    systemBus.get_object('org.bluez', self.playerObjectPath),
                     dbus_interface='org.freedesktop.DBus.Properties',
                 )
 
+                self.checkUpdate()
+
     def getPlayer(self):
-        self.dbus.get_object('org.bluez', self.playerDevicePath)
+        systemBus.get_object('org.bluez', self.playerObjectPath)
 
     def previous(self):
-        self.playerDevice.Previous()
-        self.checkUpdate()
+        self.player.Previous()
 
     def next(self):
-        self.playerDevice.Next()
-        self.checkUpdate()
+        self.player.Next()
 
     def play(self):
-        self.playerDevice.Play()
-        self.checkUpdate()
+        self.player.Play()
 
     def pause(self):
-        self.playerDevice.Pause()
-        self.checkUpdate()
+        self.player.Pause()
 
     def getPlayerProp(self, name):
         return self.playerPropsDevice.Get('org.bluez.MediaPlayer1', name)
 
+    def setPlayerProp(self, name, value):
+        self.playerPropsDevice.Set('org.bluez.MediaPlayer1', name, value)
+
     def checkUpdate(self, *args):
-        if self.playerDevicePath is None or self.playerDevice is None:
+        if self.playerObjectPath is None or self.player is None:
+            self.status = 'disconnected'
             self.position = 0
             self.duration = 1
             self.artist = '-'
             self.album = '-'
             self.track = '-'
+
+            self.triggerRefreshBTDevice()
             return
 
+        self.status = self.getPlayerProp('Status')
         self.position = int(self.getPlayerProp('Position'))
+        self.shuffle = self.getPlayerProp('Shuffle')
+        self.repeat = self.getPlayerProp('Repeat')
 
         track = self.getPlayerProp('Track')
         self.duration = int(track['Duration'])
