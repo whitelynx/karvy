@@ -6,6 +6,25 @@ from kivy.properties import ObjectProperty, StringProperty
 from kivy.clock import Clock
 
 
+# D-Bus stuff for accessing AVRCP through Bluez:
+# Name: org.bluez
+# Object path: /org/bluez/hci0/dev_B4_BF_F6_8C_FC_BF/player0
+# Interface: org.bluez.MediaPlayer1
+# Methods:
+# - FastForward()
+# - Next()
+# - Pause()
+# - Play()
+# - Previous()
+# - Rewind()
+# - Stop()
+# Properties:
+# - Repeat (boolean)
+# - Shuffle (boolean)
+# - Status (string; "paused" or similar)
+# - Track (dict of track info)
+# - Position (uint32)
+
 class BTMusicDisplay(BoxLayout):
     artist = StringProperty()
     album = StringProperty()

@@ -2,7 +2,8 @@ import kivy
 kivy.require('1.10.0')
 
 from kivy.uix.effectwidget import EffectWidget
-from kivy.properties import BoundedNumericProperty, NumericProperty, StringProperty
+from kivy.uix.image import Image
+from kivy.properties import BoundedNumericProperty, NumericProperty, ObjectProperty, StringProperty
 from kivy.clock import Clock
 from kivy.graphics import *
 
@@ -21,6 +22,14 @@ class Gauge(EffectWidget):
     line_width = BoundedNumericProperty(2, min=0, errorvalue=0)
     needle_width = BoundedNumericProperty(4, min=2, errorvalue=2)
     padding = BoundedNumericProperty(5, min=0, errorvalue=0)
+    background_image = ObjectProperty()
+
+    def __init__(self, **kwargs):
+        super(Gauge, self).__init__(**kwargs)
+
+        self.background_image = Image(source='gauge-background.png').texture
+        self.background_image.wrap = 'repeat'
+        self.background_image.uvsize = (1, 1)
 
 
 if __name__ == '__main__':

@@ -7,15 +7,22 @@ kivy.require('1.10.0')
 
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.image import Image
 from kivy.properties import DictProperty, ObjectProperty, StringProperty
 from kivy.clock import Clock
 
 
 class Screen(BoxLayout):
     now = ObjectProperty(datetime.now(), rebind=True)
+    background_image = ObjectProperty()
 
     def __init__(self, **kwargs):
         super(Screen, self).__init__(**kwargs)
+
+        self.background_image = Image(source='background.jpg').texture
+        self.background_image.wrap = 'repeat'
+        self.background_image.uvsize = (1, -1)
+
         Clock.schedule_interval(self.update, 0.1)
         self.update()
 

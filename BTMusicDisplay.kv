@@ -1,33 +1,33 @@
 #:kivy 1.10.0
 
 <ItemLabel@Label>:
-	font_size: 30
-	size: self.texture_size
-	size_hint_x: None
-	halign: 'right'
-	valign: 'middle'
+    font_size: 30
+    size: self.texture_size
+    size_hint_x: None
+    halign: 'right'
+    valign: 'middle'
 
 
 <ItemDisplay@Label>:
-	font_size: 60
+    font_size: 60
 
 
 <BTMusicDisplay>:
-	GridLayout:
-		cols: 2
-		padding: 20
+    GridLayout:
+        cols: 2
+        padding: 20
 
-		ItemLabel:
-			text: 'Artist:'
-		ItemDisplay:
-			text: root.artist
+        ItemLabel:
+            text: 'Artist:'
+        ItemDisplay:
+            text: root.artist
 
-		ItemLabel:
-			text: 'Album:'
-		ItemDisplay:
-			text: root.album
+        ItemLabel:
+            text: 'Album:'
+        ItemDisplay:
+            text: root.album
 
-		ItemLabel:
-			text: 'Track:'
-		ItemDisplay:
-			text: root.track
+        ItemLabel:
+            text: 'Track:'
+        ItemDisplay:
+            text: root.track

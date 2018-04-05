@@ -2,31 +2,32 @@
 #:import ew kivy.uix.effectwidget
 
 <Gauge>:
-	effects: ew.FXAAEffect(),
-	diameter: min(*self.size) - root.padding
+    effects: ew.FXAAEffect(),
+    diameter: min(*self.size) - root.padding
     line_inset: 0
-	line_width: 10
+    line_width: 5
 
-	canvas.before:
+    canvas.before:
         PushMatrix
         Rotate:
             angle: root.rotation
             axis: 0, 0, 1
-			origin: self.center
+            origin: self.center
 
-		Color:
-			rgba: 0.5, 0.5, 0.5, 0.5
-		Ellipse:
-			#pos: self.pos
-			#size: self.size
-			pos: self.x + (self.width - root.diameter) / 2, self.y + (self.height - root.diameter) / 2
-			size: root.diameter, root.diameter
-			#size: self.diameter, self.diameter
+        Color:
+            rgba: 0.5, 0.5, 0.5, 0.2
+        Ellipse:
+            #pos: self.pos
+            #size: self.size
+            pos: self.x + (self.width - root.diameter) / 2, self.y + (self.height - root.diameter) / 2
+            size: root.diameter, root.diameter
+            #size: self.diameter, self.diameter
+            texture: root.background_image
             angle_start: -root.theta / 2
             angle_end: root.theta / 2
 
-		Color:
-			rgba: 1, 1, 1, 0.5
+        Color:
+            rgba: 1, 1, 1, 0.5
         SmoothLine:
             width: root.line_width
             ellipse: self.center_x - root.diameter / 2 + root.line_width + root.line_inset, self.center_y - root.diameter / 2 + root.line_width + root.line_inset, root.diameter - (root.line_width + root.line_inset) * 2, root.diameter - (root.line_width + root.line_inset) * 2, -root.theta / 2 + 2, root.theta / 2 + 2
@@ -34,23 +35,23 @@
         PopMatrix:
             stack: 'modelview_mat'
 
-	canvas:
+    canvas:
         PushMatrix:
             stack: 'modelview_mat'
         Rotate:
             angle: -root.theta * ((root.value - root.min) / (root.max - root.min) - 1 / 2) + root.rotation
             axis: 0, 0, 1
-			origin: self.center
+            origin: self.center
 
-		Color:
-			rgba: 0, 1, 0, 1
+        Color:
+            rgba: 0, 1, 0, 1
         Triangle:
             points: self.center_x - root.needle_width / 2, self.center_y, self.center_x + root.needle_width / 2, self.center_y, self.x + self.width / 2, self.center_y + root.diameter / 2
 
-		Color:
-			rgba: 0, 1, 0, 1
-		Ellipse:
-			pos: self.center_x - 11, self.center_y - 11
-			size: 22, 22
+        Color:
+            rgba: 0, 1, 0, 1
+        Ellipse:
+            pos: self.center_x - 11, self.center_y - 11
+            size: 22, 22
 
         PopMatrix

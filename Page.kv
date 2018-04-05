@@ -1,44 +1,54 @@
 #:kivy 1.10.0
 
 <Page>:
-	orientation: 'horizontal'
+    orientation: 'horizontal'
 
-	Label:
-		text: root.title
-		color: root.text_color
-		font_size: 20
-		width: 25
-		size_hint_x: None
+    canvas.before:
+        Color:
+            #rgba: 0, 0, 0, 0.9
+            #rgb: 1, 1, 1
+            rgb: 0.1, 0.1, 0.1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            texture: root.background_image
 
-		canvas.before:
-			Color:
-				rgba: root.color
-			Rectangle:
-				pos: self.pos
-				size: self.size
+    Label:
+        text: root.title
+        color: root.text_color
+        font_size: 20
+        width: 25
+        size_hint_x: None
 
-			Color:
-				rgba: 1, 1, 1, 0.3
-			Rectangle:
-				pos: self.pos
-				size: 1, self.height
-			Rectangle:
-				pos: self.x, self.y + self.height - 1
-				size: self.width, 1
+        canvas.before:
+            Color:
+                rgba: root.color
+            Rectangle:
+                pos: self.pos
+                size: self.size
 
-			Color:
-				rgba: 0, 0, 0, 0.3
-			Rectangle:
-				pos: self.x + self.width - 1, self.y
-				size: 1, self.height
-			Rectangle:
-				pos: self.pos
-				size: self.width, 1
+            Color:
+                rgba: 1, 1, 1, 0.2
+            Rectangle:
+                pos: self.pos
+                size: 1, self.height
+            Rectangle:
+                pos: self.x, self.y + self.height - 1
+                size: self.width, 1
 
-			PushMatrix
-			Rotate:
-				angle: 90
-				origin: self.center
+            Color:
+                rgba: 0, 0, 0, 0.2
+            Rectangle:
+                pos: self.x + self.width - 1, self.y
+                size: 1, self.height
+            Rectangle:
+                pos: self.pos
+                size: self.width, 1
 
-		canvas.after:
-			PopMatrix
+            PushMatrix
+            Rotate:
+                angle: 90
+                origin: self.center
+
+        canvas.after:
+            PopMatrix

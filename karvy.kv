@@ -1,5 +1,5 @@
 #:kivy 1.10.0
-#:import CEFBrowser kivy.garden.cefpython
+##:import CEFBrowser kivy.garden.cefpython
 #:import Page Page
 #:import BTMusicDisplay BTMusicDisplay
 #:import Gauge Gauge
@@ -8,77 +8,78 @@
 #:include Gauge.kv
 
 <Label>:
-	font_name: 'fonts/Exo2-Regular.ttf'
+    font_name: 'fonts/Exo2-Regular.ttf'
 
 
 <Dashboard>:
-	canvas.before:
-		Color:
-			rgba: 0, 0, 0, 1
-		Rectangle:
-			pos: self.pos
-			size: self.size
+    Gauge:
+        needle_width: 8
 
-	Gauge:
-		needle_width: 8
-
-	Gauge:
+    Gauge:
 
 
 <WebDisplay>:
-	browser: browser
+    browser: browser
 
-	on_touch_down: root.reload(args[1])
+    on_touch_down: root.reload(args[1])
 
-	CEFBrowser:
-		id: browser
-		url: 'https://maps.google.com'
+    #CEFBrowser:
+        #id: browser
+        #url: 'https://maps.google.com'
 
 
 <Screen>:
-	orientation: 'vertical'
+    orientation: 'vertical'
 
-	BoxLayout:
-		orientation: 'horizontal'
-		height: clock.height
-		size_hint_y: None
+    BoxLayout:
+        orientation: 'horizontal'
+        height: clock.height
+        size_hint_y: None
 
-		canvas.before:
-			Color:
-				rgba: 0.1, 0.1, 0.1, 1
-			Rectangle:
-				pos: self.pos
-				size: self.size
+        canvas.before:
+            Color:
+                rgba: 0.05, 0.05, 0.05, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
 
-		Label:
-			text: ''
+        Label:
+            text: ''
+            size_hint_x: 1
+            height: self.texture_size[1]
 
-		Label:
-			id: clock
-			#font_name: 'fonts/IBMPlexMono-Regular.ttf'
-			#font_name: 'fonts/IBMPlexMono-Bold.ttf'
-			font_name: 'fonts/OxygenMono-Regular.ttf'
-			#font_name: 'fonts/NovaMono.ttf'
-			font_size: 11
-			#size: self.texture_size
-			height: self.texture_size[1]
-			markup: True
-			# TODO: File a bug with Kivy about using format strings:
-			#text: f'{root.now.date().isoformat()} {root.now.time().isoformat("seconds")}[size=10][color=888888].{root.now.microsecond:07}[/color][/size]'
-			text: root.now.date().isoformat() + ' ' + root.now.time().isoformat("seconds") + '[size=10][color=888888].{:06}[/color][/size]'.format(root.now.microsecond)
-			halign: 'right'
+        Label:
+            id: clock
+            #font_name: 'fonts/IBMPlexMono-Regular.ttf'
+            #font_name: 'fonts/IBMPlexMono-Bold.ttf'
+            font_name: 'fonts/OxygenMono-Regular.ttf'
+            #font_name: 'fonts/NovaMono.ttf'
+            font_size: 11
+            #size: self.texture_size
+            size_hint_x: 1
+            height: self.texture_size[1]
+            markup: True
+            # TODO: File a bug with Kivy about using format strings:
+            #text: f'{root.now.date().isoformat()} {root.now.time().isoformat("seconds")}[size=10][color=888888].{root.now.microsecond:07}[/color][/size]'
+            text: '[color=8888ff]{}[/color] {}[size=10][color=888888].{:01}[/color][/size]'.format(root.now.date().isoformat(), root.now.time().isoformat("seconds"), int(root.now.microsecond / 100000))
+            halign: 'right'
 
-	PageLayout:
-		swipe_threshold: .2
+    PageLayout:
+        swipe_threshold: .2
 
-		Page:
-			title: 'Music'
-			BTMusicDisplay
+        Page:
+            title: 'Music'
+            color: 0.2, 0.2, 0.2, 0.8
+            background_image: root.background_image
+            BTMusicDisplay
 
-		Page:
-			title: 'Dashboard'
-			Dashboard
+        Page:
+            title: 'Dashboard'
+            color: 0.2, 0.2, 0.2, 0.8
+            background_image: root.background_image
+            Dashboard
 
-		Page:
-			title: 'Maps'
-			WebDisplay
+        #Page:
+            #title: 'Maps'
+            #background_image: root.background_image
+            #WebDisplay
