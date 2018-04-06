@@ -133,7 +133,7 @@ class BTMusicDisplay(GridLayout):
     def setDefaultValues(self):
         self.status = 'disconnected'
         self.position = 0
-        self.duration = 1
+        self.duration = 0
         self.artist = '-'
         self.album = '-'
         self.track = '-'
