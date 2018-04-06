@@ -12,14 +12,19 @@
 <ItemDisplay@Label>:
     font_size: 50
 
-<Button>:
+<TransportButton@Button>:
     font_size: 60
-	markup: True
-	background_color: 0.4, 0.4, 0.4, 0.7
+    markup: True
+    background_color: 0.4, 0.4, 0.4, 0.7
 
 <BTMusicDisplay>:
-	cols: 1
-	padding: 20
+    cols: 1
+    padding: 20
+
+    Label:
+        text: root.player_name
+        size: self.texture_size
+        size_hint_y: None
 
     GridLayout:
         cols: 2
@@ -40,46 +45,46 @@
         ItemDisplay:
             text: root.track
 
-	BoxLayout:
-		height: 40
-		size_hint_y: None
-		#size_hint_y: 0.2
+    BoxLayout:
+        height: 40
+        size_hint_y: None
+        #size_hint_y: 0.2
 
-		padding: 0, 10
+        padding: 0, 10
 
-		Label:
-			markup: True
-			text: root.status_display
+        Label:
+            markup: True
+            text: root.status_display
 
-			canvas.before:
-				Color:
-					rgba: 0.1, 0.1, 0.1, 0.7
-				Rectangle:
-					pos: self.pos
-					size: self.width, self.height
+            canvas.before:
+                Color:
+                    rgba: 0.1, 0.1, 0.1, 0.7
+                Rectangle:
+                    pos: self.pos
+                    size: self.width, self.height
 
-				Color:
-					rgba: 0, 1, 0, 1
-				Rectangle:
-					pos: self.pos
-					size: self.width * (root.position / (root.duration or 1)), self.height
+                Color:
+                    rgba: 0, 1, 0, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.width * (root.position / (root.duration or 1)), self.height
 
-	BoxLayout:
-		orientation: 'horizontal'
-		size_hint_y: 0.5
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: 0.5
 
-		Button:
-			text: '%s'%(icon('icon-previous2'))
-			on_press: root.previous()
+        TransportButton:
+            text: '%s'%(icon('icon-previous2'))
+            on_press: root.previous()
 
-		Button:
-			text: '%s'%(icon('icon-pause2'))
-			on_press: root.pause()
+        TransportButton:
+            text: '%s'%(icon('icon-pause2'))
+            on_press: root.pause()
 
-		Button:
-			text: '%s'%(icon('icon-play3'))
-			on_press: root.play()
+        TransportButton:
+            text: '%s'%(icon('icon-play3'))
+            on_press: root.play()
 
-		Button:
-			text: '%s'%(icon('icon-next2'))
-			on_press: root.next()
+        TransportButton:
+            text: '%s'%(icon('icon-next2'))
+            on_press: root.next()
