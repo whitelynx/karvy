@@ -1,18 +1,23 @@
 #:kivy 1.10.0
 #:import icon kivy.garden.iconfonts.icon
+#:import ScrollingLabel ScrollingLabel
+#:include ScrollingLabel.kv
 
-<ItemLabel@Label>:
-    font_size: 30
-    size: self.texture_size
-    size_hint_x: None
-    halign: 'right'
+<TrackDisplay@ScrollingLabel>:
+    font_size: 45
+
+<MetadataDisplay@ScrollingLabel>:
+    font_size: 20
+    height: 20
+    size_hint_y: None
     valign: 'middle'
 
-
-<ItemDisplay@Label>:
-    font_size: 50
-
 <TransportButton@Button>:
+    font_size: 60
+    markup: True
+    background_color: 0.4, 0.4, 0.4, 0.7
+
+<TransportToggleButton@ToggleButton>:
     font_size: 60
     markup: True
     background_color: 0.4, 0.4, 0.4, 0.7
@@ -26,24 +31,28 @@
         size: self.texture_size
         size_hint_y: None
 
-    GridLayout:
-        cols: 2
-        padding: 20
+    TrackDisplay:
+        text: root.track
 
-        ItemLabel:
-            text: 'Artist:'
-        ItemDisplay:
-            text: root.artist
+    MetadataDisplay:
+        text: 'Artist: {}'.format(root.artist)
 
-        ItemLabel:
-            text: 'Album:'
-        ItemDisplay:
-            text: root.album
+    MetadataDisplay:
+        text: 'Album: {}'.format(root.album)
 
-        ItemLabel:
-            text: 'Track:'
-        ItemDisplay:
-            text: root.track
+    #GridLayout:
+    #    cols: 2
+    #    padding: 0, 20
+
+    #    MetadataDisplay:
+    #        text: 'Artist:'
+    #    MetadataDisplay:
+    #        text: root.artist
+
+    #    MetadataDisplay:
+    #        text: 'Album:'
+    #    MetadataDisplay:
+    #        text: root.album
 
     BoxLayout:
         height: 40
@@ -73,18 +82,28 @@
         orientation: 'horizontal'
         size_hint_y: 0.5
 
+        TransportToggleButton:
+            text: icon('icon-shuffle')
+            state: 'down' if root.shuffle else 'normal'
+            on_press: root.toggle_shuffle()
+
         TransportButton:
-            text: '%s'%(icon('icon-previous2'))
+            text: icon('icon-previous2')
             on_press: root.previous()
 
         TransportButton:
-            text: '%s'%(icon('icon-pause2'))
+            text: icon('icon-pause2')
             on_press: root.pause()
 
         TransportButton:
-            text: '%s'%(icon('icon-play3'))
+            text: icon('icon-play3')
             on_press: root.play()
 
         TransportButton:
-            text: '%s'%(icon('icon-next2'))
+            text: icon('icon-next2')
             on_press: root.next()
+
+        TransportToggleButton:
+            text: icon('icon-loop')
+            state: 'down' if root.repeat else 'normal'
+            on_press: root.toggle_repeat()

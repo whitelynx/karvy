@@ -113,22 +113,28 @@ class BTMusicDisplay(GridLayout):
         systemBus.get_object('org.bluez', self.playerObjectPath)
 
     def previous(self):
-        self.player.Previous()
+        self.player and self.player.Previous()
 
     def next(self):
-        self.player.Next()
+        self.player and self.player.Next()
 
     def play(self):
-        self.player.Play()
+        self.player and self.player.Play()
 
     def pause(self):
-        self.player.Pause()
+        self.player and self.player.Pause()
+
+    def toggle_shuffle(self):
+        self.setPlayerProp('Shuffle', 'off' if self.shuffle else 'alltracks')
+
+    def toggle_repeat(self):
+        self.setPlayerProp('Repeat', 'off' if self.repeat else 'alltracks')
 
     def getPlayerProp(self, name):
-        return self.playerPropsDevice.Get('org.bluez.MediaPlayer1', name)
+        return self.playerPropsDevice and self.playerPropsDevice.Get('org.bluez.MediaPlayer1', name)
 
     def setPlayerProp(self, name, value):
-        self.playerPropsDevice.Set('org.bluez.MediaPlayer1', name, value)
+        self.playerPropsDevice and self.playerPropsDevice.Set('org.bluez.MediaPlayer1', name, value)
 
     def setDefaultValues(self):
         self.status = 'disconnected'
@@ -147,8 +153,8 @@ class BTMusicDisplay(GridLayout):
         try:
             self.status = self.getPlayerProp('Status')
             self.position = int(self.getPlayerProp('Position'))
-            self.shuffle = self.getPlayerProp('Shuffle')
-            self.repeat = self.getPlayerProp('Repeat')
+            self.shuffle = self.getPlayerProp('Shuffle') != 'off'
+            self.repeat = self.getPlayerProp('Repeat') != 'off'
 
             track = self.getPlayerProp('Track')
             self.duration = int(track['Duration'])

@@ -1,0 +1,25 @@
+#:kivy 1.10.0
+#:import icon kivy.garden.iconfonts.icon
+
+<ScrollingLabel>:
+    label: label
+    orientation: 'horizontal'
+    do_scroll_y: False
+    #bar_color: 1, 1, 1, 0.02
+    bar_color: 1, 1, 1, 0
+
+    Label:
+        id: label
+        size_hint_x: None
+        text: root.text
+        height: root.height
+        width: self.texture_size[0]
+        font_name: root.font_name
+        font_size: root.font_size
+        line_height: root.line_height
+        markdown: root.markdown
+        bold: root.bold
+        italic: root.italic
+        color: root.color
+        halign: root.halign
+        valign: root.valign
