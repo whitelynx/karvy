@@ -32,7 +32,7 @@ class ScrollingLabel(ScrollView):
     def __init__(self, **kwargs):
         super(ScrollingLabel, self).__init__(**kwargs)
 
-        #FIXME: How do you add delays between animation steps?
+        #FIXME: This throws `TypeError: 'bool' object is not subscriptable`
         #self.anim = Animation(scroll_x=0, duration=self.delay) \
         #    + Animation(scroll_x=1, duration=self.duration) \
         #    + Animation(scroll_x=1, duration=self.delay) \
