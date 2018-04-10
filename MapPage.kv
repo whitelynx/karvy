@@ -3,6 +3,27 @@
 #:import MapSource kivy.garden.mapview
 
 <MapPage>:
+	cols: 1
+
+	GridLayout:
+		rows: 1
+        height: 30
+        size_hint_y: None
+
+		TextInput:
+			id: fromInput
+			hint_text: 'From'
+			multiline: False
+
+		TextInput:
+			id: toInput
+			hint_text: 'To'
+			multiline: False
+
+		Button:
+			text: 'Directions'
+			on_press: root.get_directions(fromInput.text, toInput.text)
+
 	MapView:
 		id: mapview
 		background_color: 0, 0, 0, 1
