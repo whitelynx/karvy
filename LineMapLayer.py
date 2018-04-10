@@ -14,6 +14,7 @@ class LineMapLayer(MapLayer):
         self._coordinates = []
         self._line_points = None
         self._line_points_offset = (0, 0)
+        self._ms = None
         self.zoom = 0
 
     @property
@@ -37,6 +38,14 @@ class LineMapLayer(MapLayer):
         if self._line_points is None:
             self.calc_line_points()
         return self._line_points_offset
+
+    @property
+    def ms(self):
+        if self._ms is None:
+            mapview = self.parent
+            map_source = mapview.map_source
+            self._ms = pow(2.0, mapview.zoom) * map_source.dp_tile_size
+        return self._ms
 
     def calc_line_points(self):
         # Offset all points by the coordinates of the first point, to keep coordinates closer to zero.
@@ -68,8 +77,7 @@ class LineMapLayer(MapLayer):
         # Must redraw when the zoom changes
         # as the scatter transform resets for the new tiles
         if (self.zoom != mapview.zoom):
-            map_source = mapview.map_source
-            self.ms = pow(2.0, mapview.zoom) * map_source.dp_tile_size
+            self._ms = None
             self.invalidate_line_points()
             self.clear_and_redraw()
 
