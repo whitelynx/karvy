@@ -109,24 +109,41 @@ class BTMusicDisplay(GridLayout):
 
                 self.checkUpdate()
 
+    def catchDBusErrors(func):
+        def wrapper(self, *args, **kwargs):
+            try:
+                return func(self, *args, **kwargs)
+            except dbus.exceptions.DBusException as err:
+                Logger.warn(f'BTMusicDisplay: DBus error while calling {func.__name__}: {err}')
+                self.setDefaultValues()
+                self.triggerRefreshBTDevice()
+        wrapper.__name__ = func.__name__
+        return wrapper
+
     def getPlayer(self):
         systemBus.get_object('org.bluez', self.playerObjectPath)
 
+    @catchDBusErrors
     def previous(self):
         self.player and self.player.Previous()
 
+    @catchDBusErrors
     def next(self):
         self.player and self.player.Next()
 
+    @catchDBusErrors
     def play(self):
         self.player and self.player.Play()
 
+    @catchDBusErrors
     def pause(self):
         self.player and self.player.Pause()
 
+    @catchDBusErrors
     def toggle_shuffle(self):
         self.setPlayerProp('Shuffle', 'off' if self.shuffle else 'alltracks')
 
+    @catchDBusErrors
     def toggle_repeat(self):
         self.setPlayerProp('Repeat', 'off' if self.repeat else 'alltracks')
 
@@ -144,24 +161,20 @@ class BTMusicDisplay(GridLayout):
         self.album = '-'
         self.track = '-'
 
+    @catchDBusErrors
     def checkUpdate(self, *args):
         if self.playerObjectPath is None or self.player is None:
             self.setDefaultValues()
             self.triggerRefreshBTDevice()
             return
 
-        try:
-            self.status = self.getPlayerProp('Status')
-            self.position = int(self.getPlayerProp('Position'))
-            self.shuffle = self.getPlayerProp('Shuffle') != 'off'
-            self.repeat = self.getPlayerProp('Repeat') != 'off'
+        self.status = self.getPlayerProp('Status')
+        self.position = int(self.getPlayerProp('Position'))
+        self.shuffle = self.getPlayerProp('Shuffle') != 'off'
+        self.repeat = self.getPlayerProp('Repeat') != 'off'
 
-            track = self.getPlayerProp('Track')
-            self.duration = int(track['Duration'])
-            self.artist = track['Artist']
-            self.album = track['Album']
-            self.track = track['Title']
-
-        except dbus.exceptions.DBusException:
-            self.setDefaultValues()
-            self.triggerRefreshBTDevice()
+        track = self.getPlayerProp('Track')
+        self.duration = int(track['Duration'])
+        self.artist = track['Artist']
+        self.album = track['Album']
+        self.track = track['Title']
