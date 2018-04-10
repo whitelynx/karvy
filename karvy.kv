@@ -1,14 +1,15 @@
 #:kivy 1.10.0
 ##:import CEFBrowser kivy.garden.cefpython
-#:import MapView kivy.garden.mapview
-#:import MapSource kivy.garden.mapview
 #:import Page Page
 #:import BTMusicDisplay BTMusicDisplay
 #:import Gauge Gauge
+#:import MapPage MapPage
 #:include Page.kv
 #:include BTMusicDisplay.kv
 #:include Gauge.kv
 #:include CameraView.kv
+#:include MapPage.kv
+
 
 <Label>:
     font_name: 'fonts/Exo2-Regular.ttf'
@@ -69,7 +70,7 @@
 
     PageLayout:
         swipe_threshold: .2
-        page: 2
+        page: 1
 
         Page:
             title: 'Camera'
@@ -83,18 +84,7 @@
 
         Page:
             title: 'Maps'
-            MapView:
-                background_color: 0, 0, 0, 1
-                zoom: 15
-                lat: 42.4359898
-                lon: -71.0200613
-                #map_source: 'osm-hot'
-                #map_source: 'thunderforest-transport'
-                #map_source: MapSource.MapSource(cache_key='stamen-watercolor', url='https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.png', attribution='')
-                #map_source: MapSource.MapSource(cache_key='esri-street', url='https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', image_ext='jpeg', attribution='')
-                map_source: MapSource.MapSource(cache_key='cartodb-darkmatter', url='https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png', attribution='')
-                #map_source: MapSource.MapSource(cache_key='cartodb-positron', url='https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', attribution='')
-                #map_source: MapSource.MapSource(cache_key='thunderforest-transportdark', url='http://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png', attribution='')
+            MapPage
 
         Page:
             title: 'Dashboard'
