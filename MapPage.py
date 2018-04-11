@@ -9,6 +9,7 @@ from kivy.logger import Logger
 from kivy.properties import ListProperty, ObjectProperty, StringProperty
 
 from kivy.garden.mapview import MapSource
+from kivy.garden.mapview.mapview.utils import clamp
 
 import googlemaps
 import polyline
@@ -50,7 +51,31 @@ class MapPage(GridLayout):
             bounds = route['bounds']
             minBound = bounds['southwest']['lat'], bounds['southwest']['lng']
             maxBound = bounds['northeast']['lat'], bounds['northeast']['lng']
-            self.ids.mapview.center_on((minBound[0] + maxBound[0]) / 2, (minBound[1] + maxBound[1]) / 2)
+            self.fit(minBound, maxBound)
 
         except googlemaps.exceptions.HTTPError as err:
             Logger.warn(f'Error from Google Maps API: {err}')
+
+    def fit(self, *points):
+        minX, minY = float('inf'), float('inf')
+        maxX, maxY = float('-inf'), float('-inf')
+        for (x, y) in points:
+            minX = min(minX, x)
+            minY = min(minY, y)
+            maxX = max(minX, x)
+            maxY = max(minY, y)
+
+        self.ids.mapview.center_on((minX + maxX) / 2, (minY + maxY) / 2)
+
+#        pctBuffer = 0.05;
+#        xBuffer = (maxX - minX) * pctBuffer;
+#        yBuffer = (maxY - minY) * pctBuffer;
+#        zoom = min(
+#            floor(-log(4)*log(dx) + screen_width/tile_size)
+#        )
+#
+#        self.ids.mapview.zoom = clamp(
+#            zoom,
+#            self.ids.mapview.map_source.get_min_zoom(),
+#            self.ids.mapview.map_source.get_max_zoom()
+#        )

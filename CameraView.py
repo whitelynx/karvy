@@ -7,7 +7,7 @@ from kivy.logger import Logger
 
 
 class CameraView(BoxLayout):
-    play = BooleanProperty()
+    play = BooleanProperty(False)
 
     def on_play(self, instance, play):
         Logger.debug(f'on_play: {play}')

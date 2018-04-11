@@ -22,12 +22,13 @@
 
 		Button:
 			text: 'Directions'
+			size_hint_x: 0.5
 			on_press: root.get_directions(fromInput.text, toInput.text)
 
 	MapView:
 		id: mapview
 		background_color: 0, 0, 0, 1
-		zoom: 15
+		zoom: 10
 		lat: 42.4359898
 		lon: -71.0200613
 		#map_source: 'osm-hot'
