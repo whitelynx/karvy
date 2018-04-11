@@ -1,7 +1,7 @@
 Karvy
 =====
 
-A Kivy-based car entertainment system interface.
+A [Kivy](https://kivy.org)-based car entertainment system interface.
 
 
 ![Music screen](https://i.imgur.com/6m7oeTJ.png)
