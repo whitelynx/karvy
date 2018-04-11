@@ -3,6 +3,7 @@
 #:import Page Page
 #:import BTMusicDisplay BTMusicDisplay
 #:import Gauge Gauge
+#:import CameraView CameraView
 #:import MapPage MapPage
 #:include Page.kv
 #:include BTMusicDisplay.kv
@@ -72,10 +73,13 @@
         swipe_threshold: .2
         page: 1
 
+        on_page: root.on_page_changed(self.page)
+
         Page:
             title: 'Camera'
             background_image: root.background_image
-            CameraView
+            CameraView:
+                id: camera_view
 
         Page:
             title: 'Music'

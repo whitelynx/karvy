@@ -33,6 +33,9 @@ class Screen(BoxLayout):
     def update(self, *args):
         self.now = datetime.now()
 
+    def on_page_changed(self, page):
+        self.ids.camera_view.play = (page == 0)
+
 
 class Dashboard(BoxLayout):
     data = DictProperty({}, rebind=True)

@@ -1,11 +1,11 @@
 #:kivy 1.10.0
 
-<CameraView@BoxLayout>:
-	orientation: 'vertical'
+<CameraView>:
+    orientation: 'vertical'
 
-	Camera:
-		id: camera
-		#resolution: (800, 480)
-		resolution: (640, 480)
-		index: 0
-		play: True
+    Camera:
+        id: camera
+        #resolution: (800, 480)
+        resolution: (640, 480)
+        index: 0
+        play: root.play
