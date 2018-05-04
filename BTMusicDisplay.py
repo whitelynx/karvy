@@ -8,6 +8,7 @@ from kivy.properties import AliasProperty, BooleanProperty, NumericProperty, Obj
 from kivy.clock import Clock
 from kivy.logger import Logger
 
+import pulsectl
 import dbus
 
 from DBus import systemBus
@@ -61,6 +62,7 @@ class BTMusicDisplay(GridLayout):
     artist = StringProperty()
     album = StringProperty()
     track = StringProperty()
+    volume = NumericProperty()
 
     def get_status_display(self):
         if self.duration:
@@ -71,12 +73,20 @@ class BTMusicDisplay(GridLayout):
 
     def __init__(self, **kwargs):
         super(BTMusicDisplay, self).__init__(**kwargs)
+        self.pulse = pulsectl.Pulse('karvy')
+        self.pulse.event_mask_set('all')
+        self.pulse.event_callback_set(self.printPAEvent)
+        #self.volume = self.pulse.sink_input_list()[0].volume.value_flat
         self.refreshBTDevice()
 
         self.triggerRefreshBTDevice = Clock.create_trigger(self.refreshBTDevice)
         self.triggerUpdate = Clock.create_trigger(self.checkUpdate)
 
         Clock.schedule_interval(self.triggerUpdate, 0.01)
+
+    def printPAEvent(self, ev):
+        Logger.info(f'BTMusicDisplay: Pulse event: {ev}')
+        #self.volume = self.pulse.sink_input_list()[0].volume.value_flat
 
     def refreshBTDevice(self, *args):
         rootBTObj = systemBus.get_object('org.bluez', '/')
@@ -178,3 +188,5 @@ class BTMusicDisplay(GridLayout):
         self.artist = track['Artist']
         self.album = track['Album']
         self.track = track['Title']
+
+        self.pulse.event_listen(timeout=0.001)
