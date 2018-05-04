@@ -64,7 +64,7 @@ class BTMusicDisplay(GridLayout):
 
     def get_status_display(self):
         if self.duration:
-            return f'{self.status} [size=11][font=fonts/OxygenMono-Regular.ttf]({renderMS(self.position)[:-5]} / {renderMS(self.duration)})[/font][/size]'
+            return f'{self.status.capitalize()} ({renderMS(self.position)[:-5]} / {renderMS(self.duration)})'
         return self.status
 
     status_display = AliasProperty(get_status_display, None, bind=('status', 'position', 'duration'))

@@ -57,23 +57,26 @@
     BoxLayout:
         height: 40
         size_hint_y: None
-        #size_hint_y: 0.2
 
         padding: 1, 8, 1, 10
 
         Label:
             markup: True
+            font_size: 14
+            font_name: 'fonts/OxygenMono-Regular.ttf'
             text: root.status_display
+            outline_color: 0, 0, 0, 0.5
+            outline_width: 2
 
             canvas.before:
                 Color:
-                    rgba: 0.1, 0.1, 0.1, 0.7
+                    rgba: 0.1, 0.1, 0.1, 0.5
                 Rectangle:
                     pos: self.pos
                     size: self.width, self.height
 
                 Color:
-                    rgba: 0, 1, 0, 1
+                    rgba: 0, 0.7, 0, 0.7
                 Rectangle:
                     pos: self.pos
                     size: self.width * (root.position / (root.duration or 1)), self.height
