@@ -29,10 +29,9 @@ Prerequisites
 
 ### Python packages:
 
-- `python-gobject` or `opencv-python`
-- `plyer`
-- `kivy`
-- `kivy-garden`
+See <./requirements.txt>.
+
+`python-gobject` can be substituted for `opencv-python` if you are unable to install the latter.
 
 ### Kivy garden flowers:
 
@@ -43,9 +42,7 @@ Prerequisites
 
 ```bash
 pacman -S python cython ffmpeg sdl2 sdl2_image sdl2_mixer sdl2_ttf zlib gstreamer gst-plugins-base gst-plugins-good hdf5 opencv python-gobject python-kivy
-pip install plyer kivy-garden
-garden install iconfonts
-garden install mapview
+./bootstrap.sh
 ```
 
 You probably also want to make sure your user is a member of the `audio`, `video`, and `input` groups.
