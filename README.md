@@ -29,7 +29,7 @@ Prerequisites
 
 ### Python packages:
 
-See <./requirements.txt>.
+See [requirements.txt](./requirements.txt).
 
 `python-gobject` can be substituted for `opencv-python` if you are unable to install the latter.
 
