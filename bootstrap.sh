@@ -1,16 +1,24 @@
 #!/bin/bash
 
-if ! which pyenv >/dev/null; then
-	echo 'Install pyenv first:'
-	echo '$ curl https://pyenv.run | bash'
-	exit 1
-fi
-
 cd "$(dirname "$0")"
 
-pyenv install --skip-existing "$(cat .python-version)"
+declare -a PIP_OPTS=()
+if [[ "$1" == "--no-pyenv" ]]; then
+	if ! which pyenv >/dev/null; then
+		echo 'Install pyenv first:'
+		echo '$ curl https://pyenv.run | bash'
+		echo
+		echo 'OR, if you are installing on an embedded system, you can skip using pyenv:'
+		echo '$ ./bootstrap.sh --no-pyenv'
+		exit 1
+	fi
 
-pip install -r requirements.txt
+	pyenv install --skip-existing "$(cat .python-version)"
+else
+	PIP_OPTS=("--user")
+fi
+
+pip install "${PIP_OPTS[@]}" -r requirements.txt
 
 garden install --app iconfonts
 garden install --app mapview
