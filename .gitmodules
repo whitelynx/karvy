@@ -1,4 +1,0 @@
-[submodule "libs/garden/garden.cefpython"]
-	path = libs/garden/garden.cefpython
-	url = git@github.com:whitelynx/garden.cefpython.git
-	branch = fix/keyboard_widget-is-none
