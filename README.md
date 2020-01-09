@@ -68,13 +68,17 @@ We also currently need to install Kivy master due to an error that hasn't had a 
 echo 'https://dl-2.alpinelinux.org/alpine/edge/testing' | sudo tee -a /etc/apk/repositories
 echo '/media/mmcblk0p1/packages/unmaintained' | sudo tee -a /etc/apk/repositories
 sudo apk update
+
 sudo apk add gcc make python3-dev cython ffmpeg-dev sdl2-dev sdl2_image-dev sdl2_mixer-dev sdl2_ttf-dev pango-dev zlib-dev hdf5-dev gstreamer-dev gst-plugins-base gst-plugins-good pulseaudio pulseaudio-bluez dbus dbus-dev mtdev libjpeg-turbo-dev musl-dev mesa-dev opencv-nogtk
+
 sudo rc-update add dbus boot
 sudo /etc/init.d/dbus start
+
 pip3 install --upgrade pip
 pip3 install --upgrade --user cython pillow
 pip3 install --user kivy[base] --pre --extra-index-url https://kivy.org/downloads/simple/
 pip3 install --user $(grep -vE 'opencv-python|Kivy' requirements.txt)
+
 ~/.local/bin/garden install --app iconfonts
 ~/.local/bin/garden install --app mapview
 ```
