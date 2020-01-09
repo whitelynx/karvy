@@ -72,7 +72,7 @@ sudo apk add gcc make python3-dev cython ffmpeg-dev sdl2-dev sdl2_image-dev sdl2
 sudo rc-update add dbus boot
 sudo /etc/init.d/dbus start
 pip3 install --upgrade pip
-pip3 install --upgrade --user Cython==0.29.10 pillow
+pip3 install --upgrade --user cython pillow
 pip3 install --user kivy[base] --pre --extra-index-url https://kivy.org/downloads/simple/
 pip3 install --user $(grep -vE 'opencv-python|Kivy' requirements.txt)
 ~/.local/bin/garden install --app iconfonts
