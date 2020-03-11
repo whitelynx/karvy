@@ -185,8 +185,8 @@ class BTMusicDisplay(GridLayout):
 
         track = self.getPlayerProp('Track')
         self.duration = int(track['Duration'])
-        self.artist = track['Artist']
-        self.album = track['Album']
-        self.track = track['Title']
+        self.artist = track.get('Artist', '-')
+        self.album = track.get('Album', '-')
+        self.track = track.get('Title', '-')
 
         self.pulse.event_listen(timeout=0.001)
