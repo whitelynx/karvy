@@ -54,6 +54,13 @@ pacman -S python cython ffmpeg sdl2 sdl2_image sdl2_mixer sdl2_ttf pango zlib hd
 ./bootstrap.sh
 ```
 
+If installing in Arch Linux ARM on a Raspberry Pi, `bootstrap.sh` will likely fail. In that case, run these steps manually:
+```bash
+pip install --user -r requirements-rpi.txt
+garden install --app iconfonts
+garden install --app mapview
+```
+
 You probably also want to make sure your user is a member of the `audio`, `video`, and `input` groups.
 
 ### Installation on Alpine Linux on a Raspberry Pi:
