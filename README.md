@@ -67,23 +67,29 @@ You probably also want to make sure your user is a member of the `audio`, `video
 
 You will first need to manually build a package for `opencv` with `python3` support and without GTK support. (TODO: instructions coming soon?) This cannot be built on the Raspberry Pi if using diskless mode (the default) because of space constraints. (not to mention the sheer amount of time building on the RPi would take)
 
-Similarly, in order to install Kivy in diskless mode, you first have to mount a persistent volume at `~/.cache/pip` so it doesn't attempt to build the entire source tree in memory.
+Similarly, in order to install Kivy in diskless mode, you first have to mount a persistent volume at `/home` so it doesn't attempt to build the entire source tree in memory. (and so you don't lose the results of this process once you reboot)
 
 We also currently need to install Kivy master due to an error that hasn't had a fix released yet; see [this StackOverflow question](https://stackoverflow.com/questions/59125232/how-to-deal-with-kivy-installing-error-in-python) for more info.
 
+As a normal (non-`root`) user with `sudo` privileges, in the `karvy` directory:
 ```sh
+# Add the `testing` repo, for `hdf5-dev`
 echo 'https://dl-2.alpinelinux.org/alpine/edge/testing' | sudo tee -a /etc/apk/repositories
-echo '/media/mmcblk0p1/packages/unmaintained' | sudo tee -a /etc/apk/repositories
-sudo apk update
 
+# Assuming you've built `opencv-nogtk` and copied the resulting `packages` dir to `/media/mmcblk0p1/packages`
+echo '/media/mmcblk0p1/packages/unmaintained' | sudo tee -a /etc/apk/repositories
+
+sudo apk update
 sudo apk add gcc make python3-dev cython ffmpeg-dev sdl2-dev sdl2_image-dev sdl2_mixer-dev sdl2_ttf-dev pango-dev zlib-dev hdf5-dev gstreamer-dev gst-plugins-base gst-plugins-good pulseaudio pulseaudio-bluez dbus dbus-dev mtdev libjpeg-turbo-dev musl-dev mesa-dev opencv-nogtk
 
+# Ensure DBus is running
 sudo rc-update add dbus boot
 sudo /etc/init.d/dbus start
 
 pip3 install --upgrade pip
 pip3 install --upgrade --user cython pillow
-pip3 install --user kivy[base] --pre --extra-index-url https://kivy.org/downloads/simple/
+mkdir -p ~/tmp
+TMPDIR=~/tmp pip3 install --user kivy[base] --pre --extra-index-url https://kivy.org/downloads/simple/
 pip3 install --user $(grep -vE 'opencv-python|Kivy' requirements.txt)
 
 ~/.local/bin/garden install --app iconfonts
