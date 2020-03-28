@@ -54,6 +54,15 @@
             height: self.texture_size[1]
 
         Label:
+            font_name: 'fonts/OxygenMono-Regular.ttf'
+            #font_name: 'fonts/NovaMono.ttf'
+            font_size: 11
+            size_hint_x: 1
+            height: self.texture_size[1]
+            markup: True
+			text: '[color=444444]Karvy[/color]'
+
+        Label:
             id: clock
             #font_name: 'fonts/IBMPlexMono-Regular.ttf'
             #font_name: 'fonts/IBMPlexMono-Bold.ttf'
@@ -66,7 +75,8 @@
             markup: True
             # TODO: File a bug with Kivy about using format strings:
             #text: f'{root.now.date().isoformat()} {root.now.time().isoformat("seconds")}[size=10][color=888888].{root.now.microsecond:07}[/color][/size]'
-            text: '[color=8888ff]{}[/color] {}[size=10][color=888888].{:01}[/color][/size]'.format(root.now.date().isoformat(), root.now.time().isoformat("seconds"), int(root.now.microsecond / 100000))
+            #text: '[color=8888ff]{}[/color] {}[size=10][color=888888].{:01}[/color][/size]'.format(root.now.date().isoformat(), root.now.time().isoformat("seconds"), int(root.now.microsecond / 100000))
+            text: '[color=8888ff]{}[/color] {}'.format(root.now.date().isoformat(), root.now.time().isoformat("seconds"))
             halign: 'right'
 
     PageLayout:
