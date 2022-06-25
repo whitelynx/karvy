@@ -1,8 +1,4 @@
-dbus-python==1.2.12
-googlemaps==4.0.0
-Kivy==1.11.1
-Kivy-Garden==0.1.4
-opencv-python==4.1.2.30
+opencv-python==4.6.0.66
 plyer==1.4.2
 polyline==1.4.0
 pulsectl==19.10.4

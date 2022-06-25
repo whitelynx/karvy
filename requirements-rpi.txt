@@ -1,6 +1,5 @@
 dbus-python==1.2.12
 googlemaps==4.0.0
-Kivy==1.11.1
 Kivy-Garden==0.1.4
 plyer==1.4.2
 polyline==1.4.0

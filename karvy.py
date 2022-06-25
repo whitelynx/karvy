@@ -10,10 +10,10 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.image import Image
 from kivy.properties import DictProperty, ObjectProperty, StringProperty
 from kivy.clock import Clock
-from kivy.garden import iconfonts
+#from kivy.garden import iconfonts
 
 
-iconfonts.register('default_font', 'fonts/icomoon.ttf', 'fonts/icomoon.fontd')
+#iconfonts.register('default_font', 'fonts/icomoon.ttf', 'fonts/icomoon.fontd')
 
 
 class Screen(BoxLayout):
@@ -34,7 +34,8 @@ class Screen(BoxLayout):
         self.now = datetime.now()
 
     def on_page_changed(self, page):
-        self.ids.camera_view.play = (page == 0)
+        pass
+        #self.ids.camera_view.play = (page == 0)
 
 
 class Dashboard(BoxLayout):

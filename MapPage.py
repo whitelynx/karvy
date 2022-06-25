@@ -8,17 +8,15 @@ from kivy.clock import Clock
 from kivy.logger import Logger
 from kivy.properties import ListProperty, ObjectProperty, StringProperty
 
-from kivy.garden.mapview import MapSource
-from kivy.garden.mapview.mapview.utils import clamp
+#from kivy.garden.mapview import MapSource
+#from kivy.garden.mapview.mapview.utils import clamp
 
 import googlemaps
 import polyline
 
-from LineMapLayer import LineMapLayer
+#from LineMapLayer import LineMapLayer
 
-
-with open('google-maps-directions.apikey', 'r') as f:
-    mapsAPIKey = f.read()
+mapsAPIKey = "AIzaSyAkoAktzhHGfMtdagOkRK2G3gPd-CR5MCc"
 
 
 class MapPage(GridLayout):
@@ -30,7 +28,7 @@ class MapPage(GridLayout):
     @property
     def line_layer(self):
         if self._line_layer is None:
-            self._line_layer = LineMapLayer()
+            #self._line_layer = LineMapLayer()
             self.ids.mapview.add_layer(self._line_layer, mode='scatter')
 
         return self._line_layer
@@ -65,7 +63,7 @@ class MapPage(GridLayout):
             maxX = max(minX, x)
             maxY = max(minY, y)
 
-        self.ids.mapview.center_on((minX + maxX) / 2, (minY + maxY) / 2)
+        #self.ids.mapview.center_on((minX + maxX) / 2, (minY + maxY) / 2)
 
 #        pctBuffer = 0.05;
 #        xBuffer = (maxX - minX) * pctBuffer;

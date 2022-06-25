@@ -1,5 +1,4 @@
 #:kivy 1.10.0
-#:import icon kivy.garden.iconfonts.icon
 #:import ScrollingLabel ScrollingLabel
 #:include ScrollingLabel.kv
 
@@ -84,29 +83,3 @@
     BoxLayout:
         orientation: 'horizontal'
         size_hint_y: 0.5
-
-        TransportToggleButton:
-            text: icon('icon-shuffle')
-            state: 'down' if root.shuffle else 'normal'
-            on_press: root.toggle_shuffle()
-
-        TransportButton:
-            text: icon('icon-previous2')
-            on_press: root.previous()
-
-        TransportButton:
-            text: icon('icon-pause2')
-            on_press: root.pause()
-
-        TransportButton:
-            text: icon('icon-play3')
-            on_press: root.play()
-
-        TransportButton:
-            text: icon('icon-next2')
-            on_press: root.next()
-
-        TransportToggleButton:
-            text: icon('icon-loop')
-            state: 'down' if root.repeat else 'normal'
-            on_press: root.toggle_repeat()
