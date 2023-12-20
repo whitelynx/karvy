@@ -13,6 +13,8 @@ import dbus
 
 from DBus import systemBus
 
+import .utils.bluetooth as bluetoothUtils
+
 
 '''
 D-Bus stuff for accessing AVRCP through Bluez:
@@ -89,35 +91,34 @@ class BTMusicDisplay(GridLayout):
         #self.volume = self.pulse.sink_input_list()[0].volume.value_flat
 
     def refreshBTDevice(self, *args):
-        rootBTObj = systemBus.get_object('org.bluez', '/')
-        managedObjects = rootBTObj.GetManagedObjects(dbus_interface='org.freedesktop.DBus.ObjectManager')
+        managedObjects = bluetoothUtils.getManagedObjects()
 
         self.playerObjectPath = None
         self.player = None
 
-        for path in managedObjects:
-            if path.endswith('/player0'):
-                Logger.info(f'BTMusicDisplay: Found media player: {path}')
+        self.playerObject = bluetoothUtils.findObject('org.bluez', lambda path: path.endswith('/player0'))
 
-                self.playerObjectPath = path
+        if self.playerObject is not None
+            self.playerObjectPath = self.playerObject.object_path
+            Logger.info(f'BTMusicDisplay: Found media player: {self.playerObjectPath}')
 
-                deviceObject = systemBus.get_object('org.bluez', self.playerObjectPath[:-8])
-                self.player_name = deviceObject.Get(
-                    'org.bluez.Device1',
-                    'Alias',
-                    dbus_interface='org.freedesktop.DBus.Properties'
-                )
+            deviceObject = systemBus.get_object('org.bluez', self.playerObjectPath[:-8])
+            self.player_name = deviceObject.Get(
+                'org.bluez.Device1',
+                'Alias',
+                dbus_interface='org.freedesktop.DBus.Properties'
+            )
 
-                self.player = dbus.Interface(
-                    systemBus.get_object('org.bluez', self.playerObjectPath),
-                    dbus_interface='org.bluez.MediaPlayer1',
-                )
-                self.playerPropsDevice = dbus.Interface(
-                    systemBus.get_object('org.bluez', self.playerObjectPath),
-                    dbus_interface='org.freedesktop.DBus.Properties',
-                )
+            self.player = dbus.Interface(
+                self.playerObject,
+                dbus_interface='org.bluez.MediaPlayer1',
+            )
+            self.playerPropsDevice = dbus.Interface(
+                self.playerObject,
+                dbus_interface='org.freedesktop.DBus.Properties',
+            )
 
-                self.checkUpdate()
+            self.checkUpdate()
 
     def catchDBusErrors(func):
         def wrapper(self, *args, **kwargs):
@@ -129,9 +130,6 @@ class BTMusicDisplay(GridLayout):
                 self.triggerRefreshBTDevice()
         wrapper.__name__ = func.__name__
         return wrapper
-
-    def getPlayer(self):
-        systemBus.get_object('org.bluez', self.playerObjectPath)
 
     @catchDBusErrors
     def previous(self):
