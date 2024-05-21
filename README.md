@@ -14,6 +14,10 @@ A [Kivy](https://kivy.org)-based car entertainment system interface.
 Prerequisites
 -------------
 
+### Google Maps Directions API key
+
+You'll need an API key for the Google Maps Directions API. Put your key in `google-maps-directions.apikey` in the project root before running.
+
 ### System packages:
 
 Note: On systems like Alpine Linux, you'll also need the `-dev` variants of most of these packages installed.
@@ -65,6 +69,14 @@ garden install --app mapview
 ```
 
 You probably also want to make sure your user is a member of the `audio`, `video`, and `input` groups.
+
+### Installation on NixOS:
+
+```bash
+nix-shell
+garden install --app iconfonts
+garden install --app mapview
+```
 
 ### Installation on Alpine Linux on a Raspberry Pi:
 
