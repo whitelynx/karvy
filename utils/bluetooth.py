@@ -24,9 +24,9 @@ def findObject(wellKnownName, pathFilter=None, interfacesFilter=None):
 
     managedObjects = getManagedObjects()
 
-	for path, interfaces in managedObjects.items():
+    for path, interfaces in managedObjects.items():
         if pathFilter(path) and interfacesFilter(interfaces):
-			return systemBus.get_object(wellKnownName, path)
+            return systemBus.get_object(wellKnownName, path)
 
 
 def findObjectInterface(wellKnownName, interfaceName, interfaceFilter=None, pathFilter=None):
@@ -39,9 +39,9 @@ def findObjectInterface(wellKnownName, interfaceName, interfaceFilter=None, path
         raise Exception('Invalid interface filter passed!')
 
     def interfacesFilter(interfaces):
-		interface = interfaces.get(interfaceName)
-		if interface is None:
-			return False
+        interface = interfaces.get(interfaceName)
+        if interface is None:
+            return False
         return interfaceFilter(interface)
 
     obj = findObject(wellKnownName, pathFilter, interfacesFilter)
