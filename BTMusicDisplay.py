@@ -13,7 +13,7 @@ import dbus
 
 from DBus import systemBus
 
-import .utils.bluetooth as bluetoothUtils
+import utils.bluetooth as bluetoothUtils
 
 
 '''
@@ -98,7 +98,7 @@ class BTMusicDisplay(GridLayout):
 
         self.playerObject = bluetoothUtils.findObject('org.bluez', lambda path: path.endswith('/player0'))
 
-        if self.playerObject is not None
+        if self.playerObject is not None:
             self.playerObjectPath = self.playerObject.object_path
             Logger.info(f'BTMusicDisplay: Found media player: {self.playerObjectPath}')
 
