@@ -79,10 +79,11 @@ class BTMusicDisplay(GridLayout):
         self.pulse.event_mask_set('all')
         self.pulse.event_callback_set(self.printPAEvent)
         #self.volume = self.pulse.sink_input_list()[0].volume.value_flat
-        self.refreshBTDevice()
 
         self.triggerRefreshBTDevice = Clock.create_trigger(self.refreshBTDevice)
         self.triggerUpdate = Clock.create_trigger(self.checkUpdate)
+
+        self.refreshBTDevice()
 
         Clock.schedule_interval(self.triggerUpdate, 0.01)
 
@@ -178,8 +179,20 @@ class BTMusicDisplay(GridLayout):
 
         self.status = self.getPlayerProp('Status')
         self.position = int(self.getPlayerProp('Position'))
-        self.shuffle = self.getPlayerProp('Shuffle') != 'off'
-        self.repeat = self.getPlayerProp('Repeat') != 'off'
+
+        try:
+            self.shuffle = self.getPlayerProp('Shuffle') != 'off'
+        except dbus.DBusException as err:
+            #Logger.warn(f'BTMusicDisplay: DBus error while calling getPlayerProp("Shuffle"): {err}')
+            #print(repr(err))
+            self.shuffle = False
+
+        try:
+            self.repeat = self.getPlayerProp('Repeat') != 'off'
+        except dbus.DBusException as err:
+            #Logger.warn(f'BTMusicDisplay: DBus error while calling getPlayerProp("Repeat"): {err}')
+            #print(repr(err))
+            self.repeat = False
 
         track = self.getPlayerProp('Track')
         self.duration = int(track['Duration'])
