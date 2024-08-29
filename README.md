@@ -7,8 +7,8 @@ A [Kivy](https://kivy.org)-based car entertainment system interface.
 <div style="color: #880000; font-weight: bold">NOTE: This project has been on hold since April 2020. Since then I've moved overseas - I no longer own this car, and the rest of the hardware for this project is sitting in storage on a different continent. Once I get a new car, there's a chance I'll pick this up again.</div>
 
 
-![Music screen](https://i.imgur.com/6m7oeTJ.png)
-![Maps screen](https://i.imgur.com/oe7OxIN.png)
+![Music screen](screenshots/music.png)
+![Maps screen](screenshots/maps.png)
 
 
 Prerequisites
