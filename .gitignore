@@ -1,0 +1,4 @@
+*.pyc
+cache/
+libs/garden/
+google-maps-directions.apikey
