@@ -1,6 +1,16 @@
 Karvy
 =====
 
+---
+
+[![Moved to Codeberg](https://img.shields.io/badge/moved_to-Codeberg-%232185D0?logo=codeberg&logoColor=white)][codeberg project]
+
+**Notice: This project has [moved to Codeberg.org][codeberg project]. All further development will take place there.**
+
+[codeberg project]: https://codeberg.org/whitelynx/karvy
+
+---
+
 A [Kivy](https://kivy.org)-based car entertainment system interface.
 
 
